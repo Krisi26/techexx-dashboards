@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHEXX - CIS-Readiness Roadmap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #100A17 0%, #460666 30%, #772F4B 55%, #B0592A 80%, #CAB7BF 100%);
+            --exx-gradient: linear-gradient(90deg, #B0592A 0%, #CAB7BF 100%);
+            --text-main: #D1D1D1;
+            --text-head: #FFFFFF;
+            --accent: #FF8C42; 
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 160px 20px 60px 20px;
+        }
+
+        .progress-header {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(16, 10, 23, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 20px; z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; justify-content: center;
+        }
+
+        .header-content {
+            width: 100%; max-width: 1100px;
+            display: grid; grid-template-columns: 1fr auto; gap: 20px;
+            align-items: center;
+        }
+
+        .countdown-box {
+            font-size: 0.7rem; font-weight: 800; color: var(--accent);
+            letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px;
+        }
+
+        .progress-bar-bg {
+            width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px; overflow: hidden; margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%; width: 0%; background: var(--exx-gradient);
+            box-shadow: 0 0 15px rgba(255, 140, 66, 0.4);
+            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .header-actions { display: flex; gap: 10px; }
+
+        .btn {
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+            color: white; padding: 10px 16px; border-radius: 8px; cursor: pointer;
+            font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease;
+        }
+
+        .btn:hover { background: #B0592A; border-color: transparent; transform: translateY(-2px); }
+
+        .container { max-width: 1100px; width: 100%; }
+
+        .header-logo { font-weight: 600; font-size: 24px; color: #FFF; margin-bottom: 5px; }
+        .header-logo span { background: var(--exx-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+
+        h1 { font-size: 2.2rem; color: #FFF; margin: 0 0 10px 0; letter-spacing: -1px; }
+        .intro-text { font-size: 1rem; opacity: 0.8; margin-bottom: 40px; line-height: 1.6; max-width: 800px; }
+
+        .roadmap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        @media (max-width: 900px) { .roadmap-grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: var(--card-bg); backdrop-filter: blur(15px);
+            border-radius: 24px; padding: 30px; border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex; flex-direction: column; position: relative;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .card.complete { border-color: #B0592A; box-shadow: 0 0 40px rgba(176, 89, 42, 0.25); }
+        .badge-done {
+            position: absolute; top: 25px; right: 25px; background: var(--exx-gradient);
+            color: white; font-size: 0.65rem; padding: 5px 12px; border-radius: 50px;
+            font-weight: 800; opacity: 0; transform: translateY(-10px); transition: all 0.5s ease;
+        }
+        .card.complete .badge-done { opacity: 1; transform: translateY(0); }
+
+        h2 { font-size: 1.3rem; margin: 0 0 5px 0; color: #FFF; font-weight: 800; }
+        .date-label { font-size: 0.75rem; color: #CAB7BF; font-weight: 600; margin-bottom: 5px; display: block; }
+        
+        .week-goal { 
+            font-size: 0.85rem; 
+            color: var(--accent); 
+            margin-bottom: 20px; 
+            font-weight: 800; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .day-header { font-size: 0.75rem; color: #CAB7BF; text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 12px 0; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+
+        .todo-item { display: flex; align-items: flex-start; margin-bottom: 14px; cursor: pointer; font-size: 0.95rem; line-height: 1.5; }
+        .todo-item input { display: none; }
+        .checkmark {
+            width: 22px; height: 22px; border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 7px; margin-right: 15px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
+        }
+        .todo-item:hover .checkmark { border-color: var(--accent); }
+        .todo-item input:checked + .checkmark { background: var(--exx-gradient); border-color: transparent; }
+        .todo-item input:checked + .checkmark::after { content: "✓"; color: white; font-size: 14px; font-weight: bold; }
+        .todo-item input:checked ~ .text { opacity: 0.3; text-decoration: line-through; }
+
+        .outcome-box { margin-top: 25px; padding-top: 20px; border-top: 1px dashed rgba(255,255,255,0.1); }
+        .outcome-box strong { font-size: 0.7rem; color: #FFF; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+        .outcome-box p { margin: 0; font-size: 0.85rem; font-style: italic; opacity: 0.7; }
+
+        .note-area {
+            margin-top: 20px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 15px; width: 100%; color: #FFF;
+            font-family: inherit; font-size: 0.85rem; resize: vertical; min-height: 80px; outline: none;
+        }
+        .note-area:focus { border-color: var(--accent); }
+
+        .leitplanken { margin-top: 60px; padding: 40px; background: rgba(0,0,0,0.2); border-radius: 30px; }
+        .tag-list { display: flex; flex-wrap: wrap; gap: 12px; }
+        .tag { padding: 10px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; font-size: 0.85rem; font-weight: 500; }
+
+    </style>
+</head>
+<body>
+
+<div class="progress-header">
+    <div class="header-content">
+        <div>
+            <div class="countdown-box" id="deadline-timer">Lade Countdown...</div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; font-weight:800; margin-top:5px;">
+                <span>PROJEKT-FORTSCHRITT</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+        </div>
+        <div class="header-actions">
+            <button class="btn" onclick="toggleFokus()" id="fokus-btn">Fokus: AUS</button>
+            <button class="btn" style="background: rgba(45, 62, 80, 0.8);" onclick="exportToTeams()">Teams Status Export</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="header-logo">TECH<span>EXX</span> GmbH</div>
+    <h1>Roadmap Januar 2026</h1>
+    <div class="intro-text">
+        Ziel ist Struktur, Ownership und CIS-Readiness bis Ende Januar sauber etabliert. Fokus auf eine 5-Tage-Woche ohne Parallelbaustellen.
+    </div>
+
+    <div class="roadmap-grid" id="roadmapGrid">
+        
+        <div class="card" style="grid-column: 1 / -1; border-left: 5px solid #CAB7BF;" id="card-start">
+            <div class="badge-done">READY</div>
+            <span class="date-label">Mittwoch, 07.01.2026</span>
+            <h2>Onboarding & Setup</h2>
+            <div class="week-goal">Ziel: Arbeitsumgebung vervollständigen</div>
+            <label class="todo-item"><input type="checkbox" id="t-start"><span class="checkmark"></span><span class="text">Onboarding Tag, Arbeitsumgebung vollständig & einsatzbereit</span></label>
+        </div>
+
+        <div class="card" id="card-w1">
+            <div class="badge-done">MEILENSTEIN 1</div>
+            <span class="date-label">Do 08.01. – Fr 10.01.</span>
+            <h2>Woche 1 – Start & Ordnung</h2>
+            <div class="week-goal">Ziel: Arbeitsfähigkeit herstellen, Struktur erzwingen</div>
+            <div class="day-header">Donnerstag (08.01.)</div>
+            <label class="todo-item"><input type="checkbox" id="w1-1"><span class="checkmark"></span><span class="text">Jira-Projekt „CIS-Readiness“ anlegen (Kanban)</span></label>
+            <label class="todo-item"><input type="checkbox" id="w1-2"><span class="checkmark"></span><span class="text">Grundstruktur (Epics, Status, Pflichtfelder) definieren</span></label>
+            <label class="todo-item"><input type="checkbox" id="w1-3"><span class="checkmark"></span><span class="text">Projekt-Admin & Rechte prüfen</span></label>
+            <label class="todo-item"><input type="checkbox" id="w1-4"><span class="checkmark"></span><span class="text">Excel-Zuständigkeiten finalisieren (inkl. 2nd Level)</span></label>
+            <div class="day-header">Freitag (09.01.)</div>
+            <label class="todo-item"><input type="checkbox" id="w1-5"><span class="checkmark"></span><span class="text">Offene Ownership-Themen sichtbar machen</span></label>
+            <label class="todo-item"><input type="checkbox" id="w1-6"><span class="checkmark"></span><span class="text">Backup-Lücken (Web/Webdesign etc.) markieren</span></label>
+            <label class="todo-item"><input type="checkbox" id="w1-7"><span class="checkmark"></span><span class="text">Erste Jira-Tickets aus Zuständigkeitsliste ableiten</span></label>
+            <div class="outcome-box"><strong>Ergebnis Woche 1:</strong><p>Klare Struktur, Jira arbeitsfähig, volle Sichtbarkeit, nichts verborgen.</p></div>
+            <textarea class="note-area" id="note-w1" placeholder="Notizen/Hindernisse Woche 1..."></textarea>
+        </div>
+
+        <div class="card" id="card-w2">
+            <div class="badge-done">MEILENSTEIN 2</div>
+            <span class="date-label">Mo 12.01. – Fr 16.01.</span>
+            <h2>Woche 2 – Ownership & Daten</h2>
+            <div class="week-goal">Ziel: Verantwortung fixieren, Ist-Zustand messbar machen</div>
+            <label class="todo-item"><input type="checkbox" id="w2-1"><span class="checkmark"></span><span class="text">Zammad: KPI-Tracking prüfen/aktivieren</span></label>
+            <label class="todo-item"><input type="checkbox" id="w2-2"><span class="checkmark"></span><span class="text">Jira: Tickets sauber zuweisen & Deadlines setzen</span></label>
+            <label class="todo-item"><input type="checkbox" id="w2-3"><span class="checkmark"></span><span class="text">CIS-Epics weiter befüllen</span></label>
+            <label class="todo-item"><input type="checkbox" id="w2-4"><span class="checkmark"></span><span class="text">Roman/IT: Zugänge & technische Inputs liefern</span></label>
+            <label class="todo-item"><input type="checkbox" id="w2-5"><span class="checkmark"></span><span class="text">Blocker konsequent markieren und eskalieren</span></label>
+            <div class="outcome-box"><strong>Ergebnis Woche 2:</strong><p>Klare Verantwortlichkeiten, messbarer Ist-Zustand, CIS-Themen strukturiert im System.</p></div>
+            <textarea class="note-area" id="note-w2" placeholder="Notizen/Hindernisse Woche 2..."></textarea>
+        </div>
+
+        <div class="card" id="card-w3">
+            <div class="badge-done">MEILENSTEIN 3</div>
+            <span class="date-label">Mo 19.01. – Fr 23.01.</span>
+            <h2>Woche 3 – CIS Konkretisierung</h2>
+            <div class="week-goal">Ziel: Von Vorbereitung zu echter Readiness</div>
+            <label class="todo-item"><input type="checkbox" id="w3-1"><span class="checkmark"></span><span class="text">CIS-Bereiche L1–L7 ausarbeiten (Netz, Identität, M365 etc.)</span></label>
+            <label class="todo-item"><input type="checkbox" id="w3-2"><span class="checkmark"></span><span class="text">Erste Findings / Gaps dokumentieren</span></label>
+            <label class="todo-item"><input type="checkbox" id="w3-3"><span class="checkmark"></span><span class="text">Entscheidungen: Fix jetzt vs. nach CIS-Audit</span></label>
+            <label class="todo-item"><input type="checkbox" id="w3-4"><span class="checkmark"></span><span class="text">Master-Checkliste aktiv pflegen</span></label>
+            <label class="todo-item"><input type="checkbox" id="w3-5"><span class="checkmark"></span><span class="text">Zammad ↔ Jira Potenzial bewerten</span></label>
+            <div class="outcome-box"><strong>Ergebnis Woche 3:</strong><p>CIS-Lücken sichtbar, Entscheidungen vorbereitet, klare To-do-Liste Richtung Februar.</p></div>
+            <textarea class="note-area" id="note-w3" placeholder="Notizen/Hindernisse Woche 3..."></textarea>
+        </div>
+
+        <div class="card" id="card-w4">
+            <div class="badge-done">READY FOR FEB</div>
+            <span class="date-label">Mo 26.01. – Fr 30.01.</span>
+            <h2>Woche 4 – Stabilisierung</h2>
+            <div class="week-goal">Ziel: Stabiler Betrieb + Vorbereitung Februar</div>
+            <label class="todo-item"><input type="checkbox" id="w4-1"><span class="checkmark"></span><span class="text">Offene Punkte konsolidieren</span></label>
+            <label class="todo-item"><input type="checkbox" id="w4-2"><span class="checkmark"></span><span class="text">CIS-Tickets final priorisieren</span></label>
+            <label class="todo-item"><input type="checkbox" id="w4-3"><span class="checkmark"></span><span class="text">Maßnahmenliste finalisieren</span></label>
+            <label class="todo-item"><input type="checkbox" id="w4-4"><span class="checkmark"></span><span class="text">Kick-off-Meeting Februar vorbereiten</span></label>
+            <label class="todo-item"><input type="checkbox" id="w4-5"><span class="checkmark"></span><span class="text">Status-Abgleich Management</span></label>
+            <div class="outcome-box"><strong>Ergebnis Woche 4:</strong><p>Struktur steht, CIS-Readiness sauber vorbereitet, Februar startet reibungslos.</p></div>
+            <textarea class="note-area" id="note-w4" placeholder="Notizen/Hindernisse Woche 4..."></textarea>
+        </div>
+    </div>
+
+    <div class="leitplanken">
+        <div class="tag-list">
+            <span class="tag">Alles Wesentliche läuft über Jira</span>
+            <span class="tag">Ownership > Mitdenken</span>
+            <span class="tag">Blocker sofort eskalieren</span>
+            <span class="tag">Fokus auf Struktur, nicht auf Perfektion</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const noteAreas = document.querySelectorAll('.note-area');
+    const fill = document.getElementById('progress-fill');
+    const percentText = document.getElementById('progress-percent');
+    let fokusModus = false;
+
+    function updateCountdown() {
+        const deadline = new Date("February 1, 2026 09:00:00").getTime();
+        const now = new Date().getTime();
+        const diff = deadline - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('deadline-timer').innerText = `NOCH ${days} TAGE BIS ZUM FEBRUAR-KICKOFF`;
+    }
+
+    function updateProgress() {
+        const total = checkboxes.length;
+        const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        const percentage = Math.round((checked / total) * 100);
+        
+        fill.style.width = percentage + '%';
+        percentText.innerText = percentage + '%';
+
+        document.querySelectorAll('.card').forEach(card => {
+            const cardChecks = card.querySelectorAll('input[type="checkbox"]');
+            const cardChecked = card.querySelectorAll('input[type="checkbox"]:checked');
+            if(cardChecks.length > 0 && cardChecks.length === cardChecked.length) {
+                card.classList.add('complete');
+            } else {
+                card.classList.remove('complete');
+            }
+        });
+        
+        if (fokusModus) applyFocusLogic();
+    }
+
+    function toggleFokus() {
+        fokusModus = !fokusModus;
+        document.getElementById('fokus-btn').innerText = fokusModus ? "Fokus: EIN" : "Fokus: AUS";
+        applyFocusLogic();
+    }
+
+    function applyFocusLogic() {
+        const cards = document.querySelectorAll('.card');
+        const grid = document.getElementById('roadmapGrid');
+        
+        if (!fokusModus) {
+            cards.forEach(c => c.style.display = 'flex');
+            grid.style.display = 'grid';
+            return;
+        }
+
+        grid.style.display = 'flex';
+        grid.style.flexDirection = 'column';
+        grid.style.alignItems = 'center';
+
+        let foundCurrent = false;
+        cards.forEach(card => {
+            const isComplete = card.classList.contains('complete');
+            if (isComplete) {
+                card.style.display = 'none';
+            } else if (!foundCurrent) {
+                card.style.display = 'flex';
+                card.style.width = '100%';
+                card.style.maxWidth = '600px';
+                foundCurrent = true; 
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function exportToTeams() {
+        const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        const total = checkboxes.length;
+        const percentage = Math.round(checked/total*100);
+        
+        let text = `🚀 *TECHEXX CIS-Readiness Status Update*\n`;
+        text += `📊 *Gesamtfortschritt:*\n${percentage}% (${checked}/${total} Aufgaben erledigt)\n`;
+        text += `----------------------------------------\n`;
+        
+        document.querySelectorAll('.card').forEach(card => {
+            const dateStr = card.querySelector('.date-label')?.innerText || "";
+            const title = card.querySelector('h2').innerText;
+            const done = card.querySelectorAll('input[type="checkbox"]:checked').length;
+            const all = card.querySelectorAll('input[type="checkbox"]').length;
+            const statusIcon = (done === all && all > 0) ? '✅' : (done > 0 ? '⏳' : '⚪');
+
+            if(all > 0) {
+                text += `${statusIcon} *${dateStr ? dateStr + ': ' : ''}${title}*\n   Fortschritt: ${done}/${all} erledigt\n`;
+            }
+        });
+        text += `----------------------------------------\n*Fokus:* Struktur & Ownership vor Perfektion.`;
+
+        navigator.clipboard.writeText(text);
+        alert("Kompakter Statusbericht kopiert!");
+    }
+
+    checkboxes.forEach(box => {
+        if (localStorage.getItem(box.id) === 'true') box.checked = true;
+        box.addEventListener('change', () => {
+            localStorage.setItem(box.id, box.checked);
+            updateProgress();
+        });
+    });
+
+    noteAreas.forEach(note => {
+        note.value = localStorage.getItem(note.id) || "";
+        note.addEventListener('input', () => localStorage.setItem(note.id, note.value));
+    });
+
+    updateCountdown();
+    updateProgress();
+</script>
+</body>
+</html>

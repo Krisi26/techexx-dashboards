@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rollenkonzept Einführung - Roadmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #100A17 0%, #460666 30%, #772F4B 55%, #B0592A 80%, #CAB7BF 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .logo-gradient {
+            background: linear-gradient(135deg, #ff6b35 0%, #f72585 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 15px 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 8px;
+            background: linear-gradient(90deg, #ff6b35 0%, #f72585 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            font-size: 13px;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .phase-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        .phase-card.active {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 107, 53, 0.5);
+            box-shadow: 0 0 40px rgba(255, 107, 53, 0.3);
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        .phase-card.completed {
+            opacity: 0.5;
+        }
+
+        .phase-header {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .phase-header-left {
+            flex: 1;
+        }
+
+        .phase-header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .date-label {
+            font-size: 12px;
+            color: #bbb;
+            font-weight: 600;
+        }
+
+        .date-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e0e0e0;
+            font-size: 13px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            min-width: 140px;
+        }
+
+        .date-input:focus {
+            outline: none;
+            border-color: rgba(255, 107, 53, 0.5);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .date-input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        .phase-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .phase-time {
+            font-size: 14px;
+            color: #bbb;
+            font-weight: 500;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .task-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox.checked {
+            background: linear-gradient(135deg, #ff6b35 0%, #f72585 100%);
+            border-color: #f72585;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-text {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.5;
+            margin-bottom: 4px;
+        }
+
+        .task-method {
+            font-size: 13px;
+            color: #ff9d76;
+            font-weight: 600;
+        }
+
+        .notes-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .notes-label {
+            font-size: 13px;
+            color: #bbb;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 80px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            color: #e0e0e0;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.2s ease;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: rgba(255, 107, 53, 0.5);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .notes-textarea::placeholder {
+            color: #888;
+        }
+
+        .phase-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #ff6b35 0%, #f72585 100%);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-edit {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-edit:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .phase-card.locked .date-input,
+        .phase-card.locked .notes-textarea,
+        .phase-card.locked .checkbox {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .save-status {
+            display: inline-block;
+            font-size: 12px;
+            color: #4ade80;
+            margin-left: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .save-status.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            
+            .phase-card {
+                padding: 25px;
+            }
+            
+            .phase-title {
+                font-size: 20px;
+            }
+
+            .phase-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .phase-header-right {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                TECH<span class="logo-gradient">EXX</span> GmbH
+            </div>
+            <div class="progress-bar">
+                <div class="progress-text">Fortschritt: <span id="progress-count">0 von 9 Phasen</span></div>
+                <div style="background: rgba(255,255,255,0.2); height: 8px; border-radius: 10px; overflow: hidden;">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="status-badge">Status: <span id="current-status">Aktueller Fokus: AKTIV</span></div>
+            </div>
+        </div>
+
+        <div class="timeline" id="timeline">
+            <!-- Phase 1 -->
+            <div class="phase-card" data-phase="1">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 1 – Kick-off & Orientierung</div>
+                        <div class="phase-time">Zeitraum: Tag 1</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(1, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Kick-off Präsentation (All-Hands)</div>
+                            <div class="task-method">persönlich präsentieren</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Ziel & Rahmen erklären (keine Details)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 1:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-1">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(1)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(1)">Ändern</button>
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-card" data-phase="2">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 2 – Arbeitskompass etablieren</div>
+                        <div class="phase-time">Zeitraum: Tag 1</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(2, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Wann gehe ich zu wem? (Visual / PDF)</div>
+                            <div class="task-method">persönlich erklären</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Nutzen im Alltag erklären</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 2:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-2">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(2)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(2)">Ändern</button>
+                </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="phase-card" data-phase="3">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 3 – Rollenbild setzen (Überblick)</div>
+                        <div class="phase-time">Zeitraum: Tag 1</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(3, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Rollenkonzept Jänner 2026 (PPT)</div>
+                            <div class="task-method">persönlich präsentieren</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 3:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-3">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(3)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(3)">Ändern</button>
+                </div>
+            </div>
+
+            <!-- Phase 4 -->
+            <div class="phase-card" data-phase="4">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 4 – Selbststudium ermöglichen</div>
+                        <div class="phase-time">Zeitraum: Tag +2</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(4, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Rollenkonzept Jänner 2026 (PDF)</div>
+                            <div class="task-method">aussenden</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">So nutzt du das Rollenkonzept (Video)</div>
+                            <div class="task-method">Selbststudium</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 4:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-4">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(4)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(4)">Ändern</button>
+                </div>
+            </div>
+
+            <!-- Phase 5 -->
+            <div class="phase-card" data-phase="5">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 5 – Operative Arbeitsweise festlegen</div>
+                        <div class="phase-time">Zeitraum: Tag +3</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(5, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Regelwerk Operative Arbeitsweise IT (Visual)</div>
+                            <div class="task-method">aussenden</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Kurz erklären (Support-Fokus)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 5:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-5">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(5)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(5)">Ändern</button>
+                </div>
+            </div>
+
+            <!-- Phase 6 -->
+            <div class="phase-card" data-phase="6">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 6 – Tätigkeiten erfassen (noch kein RACI)</div>
+                        <div class="phase-time">Zeitraum: Tag +5</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(6, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Tätigkeits-Excel (RACI-Vorstufe)</div>
+                            <div class="task-method">aussenden</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Mitarbeitende tragen Tätigkeiten ein</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 6:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-6">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(6)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(6)">Ändern</button>
+                </div>
+            </div>
+
+            <!-- Phase 7 -->
+            <div class="phase-card" data-phase="7">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 7 – Führungsklärung (intern)</div>
+                        <div class="phase-time">Zeitraum: Tag +12 bis +15</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(7, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">RACI-Arbeitsversion erstellen</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Abstimmung: CEO, CTO, Head of Operations</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">A / AR festlegen (Governance)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 7:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-7">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(7)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(7)">Ändern</button>
+                </div>
+            </div>
+
+            <!-- Phase 8 -->
+            <div class="phase-card" data-phase="8">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 8 – RACI kommunizieren</div>
+                        <div class="phase-time">Zeitraum: Tag +16</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(8, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">RACI-Matrix Präsentation</div>
+                            <div class="task-method">aussenden</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Kurz erklären: „Referenz, kein Verhandlungsthema"</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 8:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-8">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(8)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(8)">Ändern</button>
+                </div>
+            </div>
+
+            <!-- Phase 9 -->
+            <div class="phase-card" data-phase="9">
+                <div class="phase-header">
+                    <div class="phase-header-left">
+                        <div class="phase-title">PHASE 9 – Anwendung & Stabilisierung</div>
+                        <div class="phase-time">Zeitraum: ab Tag +17</div>
+                    </div>
+                    <div class="phase-header-right">
+                        <div class="date-label">Durchgeführt am:</div>
+                        <input type="date" class="date-input" onchange="saveDate(9, this.value)">
+                    </div>
+                </div>
+                <div class="task-list">
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Nutzung im Alltag (Tickets, Übergaben, Eskalationen)</div>
+                        </div>
+                    </div>
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <div class="checkbox"></div>
+                        <div class="task-content">
+                            <div class="task-text">Review nach 4–6 Wochen</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-section">
+                    <div class="notes-label">Notizen zu Phase 9:</div>
+                    <textarea class="notes-textarea" placeholder="Hier können Sie Notizen zur Phase hinzufügen..."></textarea>
+                </div>
+                <div class="phase-actions">
+                    <span class="save-status" id="save-status-9">✓ Gespeichert</span>
+                    <button class="btn btn-save" onclick="savePhase(9)">Speichern</button>
+                    <button class="btn btn-edit" onclick="toggleEditMode(9)">Ändern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load all data on page load
+        function loadAllData() {
+            const savedData = localStorage.getItem('projectRoadmap');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Load all phases
+                for (let phase = 1; phase <= 9; phase++) {
+                    const phaseData = data[`phase${phase}`];
+                    if (phaseData) {
+                        // Load date
+                        const dateInput = document.querySelector(`.phase-card[data-phase="${phase}"] .date-input`);
+                        if (dateInput && phaseData.date) {
+                            dateInput.value = phaseData.date;
+                        }
+                        
+                        // Load notes
+                        const notesTextarea = document.querySelector(`.phase-card[data-phase="${phase}"] .notes-textarea`);
+                        if (notesTextarea && phaseData.notes) {
+                            notesTextarea.value = phaseData.notes;
+                        }
+                        
+                        // Load checkboxes
+                        if (phaseData.checkboxes) {
+                            const phaseCard = document.querySelector(`.phase-card[data-phase="${phase}"]`);
+                            const checkboxes = phaseCard.querySelectorAll('.checkbox');
+                            phaseData.checkboxes.forEach((checked, index) => {
+                                if (checked && checkboxes[index]) {
+                                    checkboxes[index].classList.add('checked');
+                                }
+                            });
+                        }
+                        
+                        // Lock phase if it was locked
+                        if (phaseData.locked) {
+                            const phaseCard = document.querySelector(`.phase-card[data-phase="${phase}"]`);
+                            phaseCard.classList.add('locked');
+                        }
+                    }
+                }
+            }
+        }
+
+        // Save a specific phase
+        function savePhase(phase) {
+            const savedData = JSON.parse(localStorage.getItem('projectRoadmap') || '{}');
+            
+            const phaseCard = document.querySelector(`.phase-card[data-phase="${phase}"]`);
+            const dateInput = phaseCard.querySelector('.date-input');
+            const notesTextarea = phaseCard.querySelector('.notes-textarea');
+            const checkboxes = phaseCard.querySelectorAll('.checkbox');
+            
+            // Collect checkbox states
+            const checkboxStates = Array.from(checkboxes).map(cb => cb.classList.contains('checked'));
+            
+            // Save phase data
+            savedData[`phase${phase}`] = {
+                date: dateInput.value,
+                notes: notesTextarea.value,
+                checkboxes: checkboxStates,
+                locked: true
+            };
+            
+            localStorage.setItem('projectRoadmap', JSON.stringify(savedData));
+            
+            // Lock the phase
+            phaseCard.classList.add('locked');
+            
+            // Show save confirmation
+            const saveStatus = document.getElementById(`save-status-${phase}`);
+            saveStatus.classList.add('show');
+            setTimeout(() => {
+                saveStatus.classList.remove('show');
+            }, 2000);
+            
+            updateProgress();
+        }
+
+        // Toggle edit mode for a phase
+        function toggleEditMode(phase) {
+            const phaseCard = document.querySelector(`.phase-card[data-phase="${phase}"]`);
+            phaseCard.classList.toggle('locked');
+            
+            const btn = event.target;
+            if (phaseCard.classList.contains('locked')) {
+                btn.textContent = 'Ändern';
+            } else {
+                btn.textContent = 'Bearbeiten beenden';
+            }
+        }
+
+        function toggleTask(element) {
+            const phaseCard = element.closest('.phase-card');
+            if (phaseCard.classList.contains('locked')) {
+                return; // Don't allow changes if locked
+            }
+            
+            const checkbox = element.querySelector('.checkbox');
+            checkbox.classList.toggle('checked');
+            updateProgress();
+        }
+
+        function loadDates() {
+            const checkbox = element.querySelector('.checkbox');
+            checkbox.classList.toggle('checked');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const allCheckboxes = document.querySelectorAll('.checkbox');
+            const checkedBoxes = document.querySelectorAll('.checkbox.checked');
+            
+            // Update active phase based on completion
+            const phases = document.querySelectorAll('.phase-card');
+            let currentPhase = null;
+            
+            phases.forEach((phase, index) => {
+                const phaseCheckboxes = phase.querySelectorAll('.checkbox');
+                const phaseChecked = phase.querySelectorAll('.checkbox.checked');
+                
+                // Remove all classes first
+                phase.classList.remove('active', 'completed');
+                
+                // If all tasks in phase are completed
+                if (phaseCheckboxes.length === phaseChecked.length && phaseCheckboxes.length > 0) {
+                    phase.classList.add('completed');
+                } 
+                // If this is the first incomplete phase, mark as active
+                else if (!currentPhase) {
+                    phase.classList.add('active');
+                    currentPhase = index + 1;
+                }
+            });
+            
+            // Count completed phases
+            const completedPhases = document.querySelectorAll('.phase-card.completed').length;
+            document.getElementById('progress-count').textContent = `${completedPhases} von 9 Phasen`;
+            
+            // Update progress bar
+            const progressPercent = (completedPhases / 9) * 100;
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            
+            // Update status
+            if (currentPhase) {
+                document.getElementById('current-status').textContent = `Aktueller Fokus: AKTIV (Phase ${currentPhase})`;
+            } else if (completedPhases === 9) {
+                document.getElementById('current-status').textContent = 'Status: ABGESCHLOSSEN';
+            }
+        }
+
+        // Initialize with first phase active
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllData();
+            updateProgress();
+        });
+    </script>
+</body>
+</html>

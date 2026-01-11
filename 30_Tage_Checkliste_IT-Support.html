@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30-Tage-Umsetzungs-Checkliste | TECHEXX</title>
+
+  <!-- Fonts (modern sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- DOCX export dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(to bottom, #2f0844, #46135c, #5a1a64, #7d374e, #a1543c);
+      min-height: 100vh;
+      font-family: "Inter", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    .input-field {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: #f9f8f9;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: #ec8044;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .btn-primary {
+      background: #ec8044;
+      color: #f9f8f9;
+      border-radius: 14px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: #af5931; }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #f9f8f9;
+      border-radius: 14px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+    .week-highlight {
+      border: 2px solid rgba(236, 128, 68, 0.4);
+      box-shadow: 0 0 20px rgba(236, 128, 68, 0.2);
+    }
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #ec8044;
+    }
+    .text-primary { color: #f9f8f9; }
+    .text-muted { color: rgba(249, 248, 249, 0.70); }
+
+    .progress-track {
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      overflow: hidden;
+      height: 10px;
+    }
+    .progress-fill {
+      background: #ec8044;
+      height: 100%;
+      width: 0%;
+      transition: width 220ms ease;
+    }
+
+    .chip {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
+      color: rgba(249,248,249,0.88);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+    .chip-active {
+      border-color: rgba(236,128,68,0.55);
+      box-shadow: 0 0 18px rgba(236,128,68,0.18);
+      color: #f9f8f9;
+    }
+
+    /* Subtle logo */
+    .brand-logo {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0px;
+      letter-spacing: -0.02em;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .brand-logo .brand-tech,
+    .brand-logo .brand-gmbh {
+      color: #f9f8f9;
+      font-weight: 800;
+    }
+    .brand-logo .brand-exx {
+      font-weight: 900;
+      background: linear-gradient(90deg, #ec8044 0%, #ff4fa3 55%, #ec8044 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.03em;
+    }
+    .brand-logo .brand-gmbh {
+      font-weight: 700;
+      font-size: 0.9em;
+      opacity: 0.92;
+      margin-left: 6px;
+    }
+
+    @media print {
+      body { background: white; }
+      .card {
+        background: white;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .text-primary, .text-muted { color: #000; }
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+
+<body class="p-4 md:p-8">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Header Bar -->
+    <div class="card p-6 mb-8">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="min-w-[320px]">
+          <div class="flex items-center gap-4 flex-wrap">
+            <div class="brand-logo text-xl">
+              <span class="brand-tech">TECH</span><span class="brand-exx">EXX</span><span class="brand-gmbh">GmbH</span>
+            </div>
+            <div class="text-muted text-xs uppercase tracking-wider">30-Tage-Umsetzung</div>
+          </div>
+
+          <div class="text-primary text-xl font-bold mt-2" id="daysToKickoff">noch X Tage bis zur Ergebnis-Evaluierung mit CTO</div>
+          <div class="text-muted text-sm mt-1">PROJEKT-FORTSCHRITT</div>
+          <div id="currentWeekIndicator" class="text-muted text-xs mt-1 hidden"></div>
+
+          <div class="mt-4">
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="mt-2 flex items-center gap-2 flex-wrap" id="weekChips">
+              <span class="text-muted text-xs mr-1">Timeline:</span>
+              <span class="chip" data-chip-week="1">W1</span>
+              <span class="chip" data-chip-week="2">W2</span>
+              <span class="chip" data-chip-week="3">W3</span>
+              <span class="chip" data-chip-week="4">W4</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 flex-wrap justify-end">
+          <div class="text-primary text-2xl font-bold" id="totalProgress">0%</div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-muted text-sm">Fokus:</span>
+            <button id="focusToggle" class="btn-secondary px-4 py-2 font-semibold">AUS</button>
+          </div>
+
+          <button id="exportBtn" class="btn-primary px-4 py-2 font-semibold no-print">Export DOCX</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Title Section -->
+    <div class="text-center mb-12">
+      <div class="text-muted text-sm mb-2">TECHEXX GmbH</div>
+      <h1 class="text-primary text-5xl font-extrabold mb-3">30-Tage-Umsetzungs-Checkliste</h1>
+      <div class="text-muted text-xl">Kick-off. Gelebte Realität.</div>
+    </div>
+
+    <!-- Heute Panel -->
+    <div id="todayPanel" class="card p-8 mb-8">
+      <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+        <div class="flex items-center gap-4 flex-wrap">
+          <h2 class="text-primary text-3xl font-bold">Heute</h2>
+          <div class="flex items-center gap-2">
+            <button id="prevDay" class="btn-secondary px-3 py-2 text-lg" title="Vorheriger Tag">←</button>
+            <div class="text-primary font-semibold" id="activeDateDisplay">YYYY-MM-DD</div>
+            <button id="nextDay" class="btn-secondary px-3 py-2 text-lg" title="Nächster Tag">→</button>
+          </div>
+          <div id="lastUpdate" class="text-muted text-xs"></div>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <button id="createNextDay" class="btn-primary px-3 py-2 text-sm no-print">Neue Vorlage für nächsten Tag</button>
+          <button id="resetToday" class="btn-secondary px-3 py-2 text-sm no-print">Heute zurücksetzen</button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+        <div class="flex items-center gap-4 flex-wrap">
+          <div class="flex items-center gap-2">
+            <span class="text-muted text-sm">Anzeige:</span>
+            <button id="todayScopeToggle" class="btn-secondary px-3 py-2 text-sm font-semibold">Nur diese Woche</button>
+          </div>
+          <button id="checkAllToday" class="btn-primary px-3 py-2 text-sm no-print">Alles für heute abhaken</button>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <div class="flex items-center justify-between mb-4 gap-4 flex-wrap">
+          <h3 class="text-primary text-xl font-semibold">Tägliche Aufgaben</h3>
+          <div id="todaySource" class="text-muted text-sm"></div>
+        </div>
+        <div id="todayTasks" class="space-y-3"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label class="text-muted text-sm block mb-2">Engpass heute (1 Satz)</label>
+          <input type="text" id="todayBottleneck" class="input-field w-full px-4 py-3" placeholder="Was blockiert heute?" />
+        </div>
+        <div>
+          <label class="text-muted text-sm block mb-2">Nächster Hebel morgen (1 Satz)</label>
+          <input type="text" id="todayLever" class="input-field w-full px-4 py-3" placeholder="Was bringt morgen am meisten?" />
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label class="text-muted text-sm block mb-2">Direkt-zu-Roman Vorfälle heute</label>
+        <div class="flex items-center gap-4">
+          <button id="romanMinus" class="btn-secondary px-4 py-2 text-xl font-bold">−</button>
+          <span id="romanCount" class="text-primary text-3xl font-bold">0</span>
+          <button id="romanPlus" class="btn-secondary px-4 py-2 text-xl font-bold">+</button>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-muted text-sm mb-3">Verlauf der letzten 7 Tage</h3>
+        <div id="dailyHistory" class="space-y-2"></div>
+      </div>
+    </div>
+
+    <!-- Ziel Card -->
+    <div class="card p-8 mb-8">
+      <h2 class="text-primary text-3xl font-bold mb-6">Ziel der 30 Tage</h2>
+      <ul class="text-primary space-y-3 text-lg leading-relaxed">
+        <li>• Die 4 nicht verhandelbaren Regeln werden gewohntes Verhalten</li>
+        <li>• Roman ist operativ entkoppelt</li>
+        <li>• Tickets werden abgeschlossen und dokumentiert</li>
+        <li>• Kommunikation läuft über Struktur, nicht über Zuruf</li>
+      </ul>
+    </div>
+
+    <!-- Woche 1 -->
+    <div class="week-card card p-8 mb-8" data-week="1">
+      <h2 class="text-primary text-3xl font-bold mb-2">WOCHE 1. SETZEN UND ABSICHERN</h2>
+      <div class="text-muted text-lg mb-6">Fokus: Klarheit + Sichtbarkeit<br />Deine Rolle: Richtung vorgeben, nicht moderieren</div>
+
+      <div class="mb-8">
+        <h3 class="text-primary text-xl font-semibold mb-4">Täglich (10–20 Min)</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w1-d1" />
+            <label class="text-primary">Ticketliste prüfen:<br />
+              <span class="ml-4">o offene Tickets</span><br />
+              <span class="ml-4">o Tickets ohne Doku</span><br />
+              <span class="ml-4">o Tickets ohne Owner</span>
+            </label>
+          </div>
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w1-d2" />
+            <label class="text-primary">Bei Verstößen immer gleich reagieren:<br />
+              <span class="ml-4">o „Bitte Ticket abschließen."</span><br />
+              <span class="ml-4">o „Dokumentation fehlt noch."</span>
+            </label>
+          </div>
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w1-d3" />
+            <label class="text-primary">Jede Zwischenfrage:<br />
+              <span class="ml-4">o „Bitte ins Ticket."</span>
+            </label>
+          </div>
+          <div class="text-primary mt-4">➡️ Kein Erklären. Kein Diskutieren.</div>
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <h3 class="text-primary text-xl font-semibold mb-4">Einmalig diese Woche</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w1-o1" />
+            <label class="text-primary">Kick-off durchgeführt</label>
+          </div>
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w1-o2" />
+            <label class="text-primary">Regelwerk verteilt. Sichtbar gemacht.</label>
+          </div>
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w1-o3" />
+            <label class="text-primary">Roman briefen:<br />
+              <span class="ml-4">o eine Standardantwort vereinbaren</span><br />
+              <span class="ml-4">„Bitte über Ticket oder über [dein Name]."</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-primary text-xl font-semibold mb-4">Prüffragen für dich (Ende Woche 1)</h3>
+        <ul class="text-primary space-y-2">
+          <li>• Gehen Leute noch direkt zu Roman?</li>
+          <li>• Gibt es Tickets, die einfach liegen bleiben?</li>
+        </ul>
+        <div class="text-primary mt-3">➡️ Wenn ja: normal. Noch keine Eskalation. Nur konsequent bleiben.</div>
+      </div>
+
+      <div>
+        <label class="text-muted text-sm block mb-2">Notizen/Hindernisse Woche 1</label>
+        <textarea class="input-field w-full px-4 py-3 h-32 resize-none" data-notes="w1" placeholder="Deine Notizen..."></textarea>
+      </div>
+    </div>
+
+    <!-- Woche 2 -->
+    <div class="week-card card p-8 mb-8" data-week="2">
+      <h2 class="text-primary text-3xl font-bold mb-2">WOCHE 2. KONSEQUENZ UND KORREKTUR</h2>
+      <div class="text-muted text-lg mb-6">Fokus: Verhalten formen<br />Deine Rolle: Spiegeln, nicht retten</div>
+
+      <div class="mb-8">
+        <h3 class="text-primary text-xl font-semibold mb-4">Täglich</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w2-d1" />
+            <label class="text-primary">Ticket-Review (wie Woche 1)</label>
+          </div>
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w2-d2" />
+            <label class="text-primary">Jeden Regelbruch ansprechen (ruhig):<br />
+              <span class="ml-4">o „Das gehört ins Ticket."</span><br />
+              <span class="ml-4">o „Offen lassen ist keine Option."</span>
+            </label>
+          </div>
+          <div class="text-primary mt-4">➡️ Jeder nicht angesprochene Verstoß wird zur neuen Regel.</div>
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <h3 class="text-primary text-xl font-semibold mb-4">1× diese Woche (20–30 Min)</h3>
+        <div class="mb-3 text-primary font-semibold">Wöchentliches IT-Review</div>
+        <div class="text-muted mb-3">Mit: dir, Christoph, Marko</div>
+        <div class="text-primary mb-2">Agenda (immer gleich):</div>
+        <ol class="text-primary space-y-2 ml-4">
+          <li>1. Wo hat es diese Woche gut funktioniert?</li>
+          <li>2. Wo wurde die Struktur umgangen?</li>
+          <li>3. Warum?</li>
+          <li>4. Eine konkrete Anpassung für nächste Woche.</li>
+        </ol>
+        <div class="text-primary mt-3">➡️ Keine Schuldfragen. Nur System.</div>
+        <div class="flex items-start gap-3 mt-4">
+          <input type="checkbox" class="checkbox mt-1" data-id="w2-o1" />
+          <label class="text-primary">IT-Review durchgeführt</label>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-primary text-xl font-semibold mb-4">Prüffragen (Ende Woche 2)</h3>
+        <ul class="text-primary space-y-2">
+          <li>• Wird früher eskaliert?</li>
+          <li>• Wird mehr dokumentiert?</li>
+        </ul>
+        <div class="text-primary mt-3">➡️ Wenn nein: nicht „mehr erklären". Sondern klarer einfordern.</div>
+      </div>
+
+      <div>
+        <label class="text-muted text-sm block mb-2">Notizen/Hindernisse Woche 2</label>
+        <textarea class="input-field w-full px-4 py-3 h-32 resize-none" data-notes="w2" placeholder="Deine Notizen..."></textarea>
+      </div>
+    </div>
+
+    <!-- Woche 3 -->
+    <div class="week-card card p-8 mb-8" data-week="3">
+      <h2 class="text-primary text-3xl font-bold mb-2">WOCHE 3. STABILISIEREN</h2>
+      <div class="text-muted text-lg mb-6">Fokus: Routine bilden<br />Deine Rolle: Erwartungshaltung festigen</div>
+
+      <div class="mb-8">
+        <h3 class="text-primary text-xl font-semibold mb-4">Täglich</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w3-d1" />
+            <label class="text-primary">Ticketstatus prüfen</label>
+          </div>
+          <div class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox mt-1" data-id="w3-d2" />
+            <label class="text-primary">1–2 positive Beispiele sichtbar machen:<br />
+              <span class="ml-4">o „Gute Übergabe."</span><br />
+              <span class="ml-4">o „Sauber dokumentiert."</span>
+            </label>
+          </div>
+          <div class="text-primary mt-4">➡️ Verstärken, was funktioniert.</div>
+        </div>
+      </div>
+
+      <div>
+        <label class="text-muted text-sm block mb-2">Notizen/Hindernisse Woche 3</label>
+        <textarea class="input-field w-full px-4 py-3 h-32 resize-none" data-notes="w3" placeholder="Deine Notizen..."></textarea>
+      </div>
+    </div>
+
+    <!-- Woche 4 -->
+    <div class="week-card card p-8 mb-8" data-week="4">
+      <h2 class="text-primary text-3xl font-bold mb-2">WOCHE 4. VERSTETIGEN</h2>
+
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-muted text-sm">Fokus:</span>
+          <button onclick="editField('w4-focus')" class="btn-secondary px-3 py-1 text-xs no-print">Bearbeiten</button>
+        </div>
+        <div id="w4-focus-display" class="text-muted text-lg"></div>
+        <input type="text" id="w4-focus-input" class="input-field w-full px-4 py-2 hidden" placeholder="Fokus eingeben..." />
+      </div>
+
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-muted text-sm">Deine Rolle:</span>
+          <button onclick="editField('w4-role')" class="btn-secondary px-3 py-1 text-xs no-print">Bearbeiten</button>
+        </div>
+        <div id="w4-role-display" class="text-muted text-lg"></div>
+        <input type="text" id="w4-role-input" class="input-field w-full px-4 py-2 hidden" placeholder="Deine Rolle eingeben..." />
+      </div>
+
+      <div class="mb-8">
+        <div class="flex items-center gap-2 mb-4">
+          <h3 class="text-primary text-xl font-semibold">Täglich (10–20 Min)</h3>
+          <button onclick="editSection('w4-daily')" class="btn-secondary px-3 py-1 text-xs no-print">Bearbeiten</button>
+        </div>
+        <div id="w4-daily-display" class="space-y-3"></div>
+        <div id="w4-daily-edit" class="space-y-2 hidden">
+          <input type="text" data-edit="w4-daily-1" class="input-field w-full px-4 py-2" placeholder="Platzhalter 1" />
+          <input type="text" data-edit="w4-daily-2" class="input-field w-full px-4 py-2" placeholder="Platzhalter 2" />
+          <input type="text" data-edit="w4-daily-3" class="input-field w-full px-4 py-2" placeholder="Platzhalter 3" />
+          <button onclick="saveSection('w4-daily')" class="btn-primary px-4 py-2 text-sm">Speichern</button>
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <div class="flex items-center gap-2 mb-4">
+          <h3 class="text-primary text-xl font-semibold">1× diese Woche (20–30 Min)</h3>
+          <button onclick="editSection('w4-once')" class="btn-secondary px-3 py-1 text-xs no-print">Bearbeiten</button>
+        </div>
+        <div id="w4-once-display" class="space-y-3"></div>
+        <div id="w4-once-edit" class="space-y-2 hidden">
+          <input type="text" data-edit="w4-once-1" class="input-field w-full px-4 py-2" placeholder="Platzhalter A" />
+          <input type="text" data-edit="w4-once-2" class="input-field w-full px-4 py-2" placeholder="Platzhalter B" />
+          <button onclick="saveSection('w4-once')" class="btn-primary px-4 py-2 text-sm">Speichern</button>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-4">
+          <h3 class="text-primary text-xl font-semibold">Prüffragen (Ende Woche 4)</h3>
+          <button onclick="editSection('w4-questions')" class="btn-secondary px-3 py-1 text-xs no-print">Bearbeiten</button>
+        </div>
+        <div id="w4-questions-display" class="text-primary space-y-2"></div>
+        <div id="w4-questions-edit" class="space-y-2 hidden">
+          <input type="text" data-edit="w4-q-1" class="input-field w-full px-4 py-2" placeholder="Platzhalter Frage 1" />
+          <input type="text" data-edit="w4-q-2" class="input-field w-full px-4 py-2" placeholder="Platzhalter Frage 2" />
+          <button onclick="saveSection('w4-questions')" class="btn-primary px-4 py-2 text-sm">Speichern</button>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label class="text-muted text-sm block mb-2">Ergebnis Woche 4 (optional)</label>
+        <input type="text" class="input-field w-full px-4 py-3" data-result="w4" placeholder="Zusammenfassung der Woche..." />
+      </div>
+
+      <div>
+        <label class="text-muted text-sm block mb-2">Notizen/Hindernisse Woche 4</label>
+        <textarea class="input-field w-full px-4 py-3 h-32 resize-none" data-notes="w4" placeholder="Deine Notizen..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === Konfiguration ===
+    const KICKOFF_DATE = new Date("2026-02-01T00:00:00+01:00");
+
+    // === Default State (wird per Migration ergänzt) ===
+    const DEFAULT_STATE = {
+      checkboxes: {},
+      notes: {},
+      dailyTemplates: [],
+      focusMode: false,
+      settings: { todayScope: "currentWeek", activeDateISO: null },
+      week4: {
+        focus: "[Bearbeiten]",
+        role: "[Bearbeiten]",
+        daily: ["[Platzhalter 1]", "[Platzhalter 2]", "[Platzhalter 3]"],
+        once: ["[Platzhalter A]", "[Platzhalter B]"],
+        questions: ["[Platzhalter Frage 1]", "[Platzhalter Frage 2]"],
+        result: ""
+      }
+    };
+
+    let state = structuredClone(DEFAULT_STATE);
+
+    // === Content model for clean DOCX export ===
+    const WEEK_DEFS = {
+      1: {
+        title: "WOCHE 1. SETZEN UND ABSICHERN",
+        focusRole: "Fokus: Klarheit + Sichtbarkeit. Rolle: Richtung vorgeben, nicht moderieren.",
+        daily: [
+          { id: "w1-d1", text: "Ticketliste prüfen:\n- offene Tickets\n- Tickets ohne Doku\n- Tickets ohne Owner" },
+          { id: "w1-d2", text: "Bei Verstößen immer gleich reagieren:\n- „Bitte Ticket abschließen.\"\n- „Dokumentation fehlt noch.\"" },
+          { id: "w1-d3", text: "Jede Zwischenfrage:\n- „Bitte ins Ticket.\"\nHinweis: Kein Erklären. Kein Diskutieren." }
+        ],
+        once: [
+          { id: "w1-o1", text: "Kick-off durchgeführt" },
+          { id: "w1-o2", text: "Regelwerk verteilt. Sichtbar gemacht." },
+          { id: "w1-o3", text: "Roman briefen:\n- Standardantwort vereinbaren\n- „Bitte über Ticket oder über [dein Name].\"" }
+        ],
+        questions: [
+          "Gehen Leute noch direkt zu Roman?",
+          "Gibt es Tickets, die einfach liegen bleiben?",
+          "Hinweis: Wenn ja. Normal. Noch keine Eskalation. Nur konsequent bleiben."
+        ]
+      },
+      2: {
+        title: "WOCHE 2. KONSEQUENZ UND KORREKTUR",
+        focusRole: "Fokus: Verhalten formen. Rolle: Spiegeln, nicht retten.",
+        daily: [
+          { id: "w2-d1", text: "Ticket-Review (wie Woche 1)" },
+          { id: "w2-d2", text: "Jeden Regelbruch ansprechen (ruhig):\n- „Das gehört ins Ticket.\"\n- „Offen lassen ist keine Option.\"\nHinweis: Jeder nicht angesprochene Verstoß wird zur neuen Regel." }
+        ],
+        once: [
+          { id: "w2-o1", text: "IT-Review durchgeführt" }
+        ],
+        questions: [
+          "Wird früher eskaliert?",
+          "Wird mehr dokumentiert?",
+          "Hinweis: Wenn nein. Nicht mehr erklären. Klarer einfordern."
+        ]
+      },
+      3: {
+        title: "WOCHE 3. STABILISIEREN",
+        focusRole: "Fokus: Routine bilden. Rolle: Erwartungshaltung festigen.",
+        daily: [
+          { id: "w3-d1", text: "Ticketstatus prüfen" },
+          { id: "w3-d2", text: "1–2 positive Beispiele sichtbar machen:\n- „Gute Übergabe.\"\n- „Sauber dokumentiert.\"\nHinweis: Verstärken, was funktioniert." }
+        ],
+        once: [],
+        questions: []
+      }
+      // Week 4 is dynamic from state.week4
+    };
+
+    // === Utilities ===
+    function deepMerge(target, source) {
+      for (const key of Object.keys(source)) {
+        if (source[key] && typeof source[key] === "object" && !Array.isArray(source[key])) {
+          if (!target[key] || typeof target[key] !== "object") target[key] = {};
+          deepMerge(target[key], source[key]);
+        } else if (Array.isArray(source[key])) {
+          if (!Array.isArray(target[key])) target[key] = source[key];
+        } else {
+          if (target[key] === undefined) target[key] = source[key];
+        }
+      }
+      return target;
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem("techexx-checklist");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          state = deepMerge(parsed, structuredClone(DEFAULT_STATE));
+        } catch (e) {
+          state = structuredClone(DEFAULT_STATE);
+        }
+      } else {
+        state = structuredClone(DEFAULT_STATE);
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem("techexx-checklist", JSON.stringify(state));
+    }
+
+    function debounce(func, wait) {
+      let timeout;
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    function getStartOfDay(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+    }
+
+    function getDaysBeforeKickoff() {
+      const now = new Date();
+      const todayStart = getStartOfDay(now);
+      const kickoffStart = getStartOfDay(KICKOFF_DATE);
+      const diffMs = kickoffStart - todayStart;
+      return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    }
+
+    function calculateDaysToKickoff() {
+      const now = new Date();
+      const diff = KICKOFF_DATE - now;
+      return Math.ceil(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function getCurrentWeek() {
+      const days = getDaysBeforeKickoff();
+      if (days >= 24 && days <= 30) return 1;
+      if (days >= 17 && days <= 23) return 2;
+      if (days >= 10 && days <= 16) return 3;
+      if (days >= 0 && days <= 9) return 4;
+      if (days > 30) return 1;
+      if (days < 0) return 4;
+      return 1;
+    }
+
+    function getTodayString() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function addDays(dateISO, days) {
+      const date = new Date(dateISO + "T00:00:00");
+      date.setDate(date.getDate() + days);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function stripHtmlToLines(html) {
+      const tmp = document.createElement("div");
+      tmp.innerHTML = html;
+      const text = tmp.textContent || tmp.innerText || "";
+      return text.split("\n").map(s => s.trim()).filter(Boolean);
+    }
+
+    // === Daily Templates (Heute Panel) ===
+    function getDailyTemplate(dateISO) {
+      let template = state.dailyTemplates.find((t) => t.dateISO === dateISO);
+      if (!template) {
+        template = {
+          dateISO,
+          dailyItemStates: {},
+          bottleneck: "",
+          leverTomorrow: "",
+          romanDirectCount: 0,
+          createdAtISO: new Date().toISOString(),
+          updatedAtISO: new Date().toISOString()
+        };
+        state.dailyTemplates.push(template);
+        saveState();
+      }
+      return template;
+    }
+
+    function initActiveDate() {
+      const today = getTodayString();
+      if (!state.settings.activeDateISO) state.settings.activeDateISO = today;
+      getDailyTemplate(state.settings.activeDateISO);
+    }
+
+    const weeklyDailyTasks = {
+      1: [
+        {
+          id: "w1-d1",
+          label:
+            'Ticketliste prüfen:<br><span class="ml-4">o offene Tickets</span><br><span class="ml-4">o Tickets ohne Doku</span><br><span class="ml-4">o Tickets ohne Owner</span>'
+        },
+        {
+          id: "w1-d2",
+          label:
+            'Bei Verstößen immer gleich reagieren:<br><span class="ml-4">o „Bitte Ticket abschließen."</span><br><span class="ml-4">o „Dokumentation fehlt noch."</span>'
+        },
+        { id: "w1-d3", label: 'Jede Zwischenfrage:<br><span class="ml-4">o „Bitte ins Ticket."</span><br><div class="mt-2">➡️ Kein Erklären. Kein Diskutieren.</div>' }
+      ],
+      2: [
+        { id: "w2-d1", label: "Ticket-Review (wie Woche 1)" },
+        {
+          id: "w2-d2",
+          label:
+            'Jeden Regelbruch ansprechen (ruhig):<br><span class="ml-4">o „Das gehört ins Ticket."</span><br><span class="ml-4">o „Offen lassen ist keine Option."</span><br><div class="mt-2">➡️ Jeder nicht angesprochene Verstoß wird zur neuen Regel.</div>'
+        }
+      ],
+      3: [
+        { id: "w3-d1", label: "Ticketstatus prüfen" },
+        {
+          id: "w3-d2",
+          label:
+            '1–2 positive Beispiele sichtbar machen:<br><span class="ml-4">o „Gute Übergabe."</span><br><span class="ml-4">o „Sauber dokumentiert."</span><br><div class="mt-2">➡️ Verstärken, was funktioniert.</div>'
+        }
+      ],
+      4: []
+    };
+
+    function updateTodayPanel() {
+      const activeDateISO = state.settings.activeDateISO;
+      const template = getDailyTemplate(activeDateISO);
+      const currentWeek = getCurrentWeek();
+      const todayScope = state.settings.todayScope || "currentWeek";
+
+      document.getElementById("activeDateDisplay").textContent = activeDateISO;
+
+      if (template.updatedAtISO) {
+        const updated = new Date(template.updatedAtISO);
+        const timeStr = updated.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+        document.getElementById("lastUpdate").textContent = `Letztes Update: ${timeStr}`;
+      }
+
+      document.getElementById("todayScopeToggle").textContent = todayScope === "currentWeek" ? "Nur diese Woche" : "Alle Wochen";
+
+      const dailyTasksContainer = document.getElementById("todayTasks");
+      dailyTasksContainer.innerHTML = "";
+
+      let tasksToShow = [];
+
+      if (todayScope === "currentWeek") {
+        const weekTasks =
+          currentWeek === 4
+            ? state.week4.daily.map((task, idx) => ({ id: `w4-d${idx + 1}`, label: `☐ ${task}`, week: 4 }))
+            : (weeklyDailyTasks[currentWeek] || []).map((t) => ({ ...t, week: currentWeek }));
+
+        tasksToShow = weekTasks;
+        document.getElementById("todaySource").textContent = `Quelle: Woche ${currentWeek} (auto)`;
+      } else {
+        for (let week = 1; week <= 4; week++) {
+          const weekTasks =
+            week === 4
+              ? state.week4.daily.map((task, idx) => ({ id: `w4-d${idx + 1}`, label: `☐ ${task}`, week: 4 }))
+              : (weeklyDailyTasks[week] || []).map((t) => ({ ...t, week }));
+          tasksToShow = tasksToShow.concat(weekTasks);
+        }
+        document.getElementById("todaySource").textContent = "Quelle: Alle Wochen (1–4)";
+      }
+
+      if (tasksToShow.length === 0) {
+        for (let week = 1; week <= 4; week++) {
+          const weekTasks =
+            week === 4
+              ? state.week4.daily.map((task, idx) => ({ id: `w4-d${idx + 1}`, label: `☐ ${task}`, week: 4 }))
+              : (weeklyDailyTasks[week] || []).map((t) => ({ ...t, week }));
+          tasksToShow = tasksToShow.concat(weekTasks);
+        }
+      }
+
+      tasksToShow.forEach((task) => {
+        const div = document.createElement("div");
+        div.className = "flex items-start gap-3";
+
+        const weekTag = todayScope === "allWeeks" ? `<span class="text-muted text-xs ml-auto">W${task.week}</span>` : "";
+        const isChecked = template.dailyItemStates[task.id] || false;
+
+        div.innerHTML = `
+          <input type="checkbox" class="checkbox mt-1 daily-checkbox" data-id="${task.id}" ${isChecked ? "checked" : ""}>
+          <label class="text-primary flex-1">${task.label}</label>
+          ${weekTag}
+        `;
+        dailyTasksContainer.appendChild(div);
+      });
+
+      document.getElementById("todayBottleneck").value = template.bottleneck || "";
+      document.getElementById("todayLever").value = template.leverTomorrow || "";
+      document.getElementById("romanCount").textContent = template.romanDirectCount || 0;
+
+      updateDailyHistory();
+
+      document.querySelectorAll("#todayTasks .daily-checkbox").forEach((cb) => {
+        cb.addEventListener("change", (e) => {
+          const t = getDailyTemplate(state.settings.activeDateISO);
+          t.dailyItemStates[e.target.dataset.id] = e.target.checked;
+          t.updatedAtISO = new Date().toISOString();
+          saveState();
+          updateTodayPanel();
+        });
+      });
+    }
+
+    function updateDailyHistory() {
+      const historyContainer = document.getElementById("dailyHistory");
+      historyContainer.innerHTML = "";
+
+      const sortedTemplates = [...state.dailyTemplates].sort((a, b) => b.dateISO.localeCompare(a.dateISO)).slice(0, 7);
+
+      sortedTemplates.forEach((template) => {
+        const div = document.createElement("div");
+        div.className = "text-muted text-sm cursor-pointer hover:text-primary";
+        div.onclick = () => {
+          state.settings.activeDateISO = template.dateISO;
+          saveState();
+          updateTodayPanel();
+        };
+        div.innerHTML = `
+          <strong class="text-primary">${template.dateISO}:</strong>
+          Roman-Vorfälle: ${template.romanDirectCount || 0} |
+          Engpass: ${template.bottleneck || "-"} |
+          Hebel: ${template.leverTomorrow || "-"}
+        `;
+        historyContainer.appendChild(div);
+      });
+    }
+
+    // === Week 4 Rendering / Editing ===
+    function renderWeek4() {
+      document.getElementById("w4-focus-display").textContent = state.week4.focus;
+      document.getElementById("w4-focus-input").value = state.week4.focus;
+
+      document.getElementById("w4-role-display").textContent = state.week4.role;
+      document.getElementById("w4-role-input").value = state.week4.role;
+
+      const dailyDisplay = document.getElementById("w4-daily-display");
+      dailyDisplay.innerHTML = "";
+      state.week4.daily.forEach((task, idx) => {
+        const div = document.createElement("div");
+        div.className = "flex items-start gap-3";
+        div.innerHTML = `
+          <input type="checkbox" class="checkbox mt-1 week-checkbox" data-id="w4-d${idx + 1}">
+          <label class="text-primary">☐ ${escapeHtml(task)}</label>
+        `;
+        dailyDisplay.appendChild(div);
+      });
+
+      const onceDisplay = document.getElementById("w4-once-display");
+      onceDisplay.innerHTML = "";
+      state.week4.once.forEach((task, idx) => {
+        const div = document.createElement("div");
+        div.className = "flex items-start gap-3";
+        div.innerHTML = `
+          <input type="checkbox" class="checkbox mt-1 week-checkbox" data-id="w4-o${idx + 1}">
+          <label class="text-primary">☐ ${escapeHtml(task)}</label>
+        `;
+        onceDisplay.appendChild(div);
+      });
+
+      const questionsDisplay = document.getElementById("w4-questions-display");
+      questionsDisplay.innerHTML = "";
+      state.week4.questions.forEach((q) => {
+        const div = document.createElement("div");
+        div.textContent = `• ${q}`;
+        questionsDisplay.appendChild(div);
+      });
+
+      // Pre-fill edit inputs
+      state.week4.daily.forEach((task, idx) => {
+        const input = document.querySelector(`[data-edit="w4-daily-${idx + 1}"]`);
+        if (input) input.value = task;
+      });
+      state.week4.once.forEach((task, idx) => {
+        const input = document.querySelector(`[data-edit="w4-once-${idx + 1}"]`);
+        if (input) input.value = task;
+      });
+      state.week4.questions.forEach((q, idx) => {
+        const input = document.querySelector(`[data-edit="w4-q-${idx + 1}"]`);
+        if (input) input.value = q;
+      });
+
+      // Attach checkbox listeners
+      document.querySelectorAll("#w4-daily-display .week-checkbox, #w4-once-display .week-checkbox").forEach((cb) => {
+        cb.checked = !!state.checkboxes[cb.dataset.id];
+        cb.addEventListener("change", (e) => {
+          state.checkboxes[e.target.dataset.id] = e.target.checked;
+          saveState();
+          updateHeader();
+        });
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    // === Progress + Header + Focus ===
+    function getAllWeekCheckboxIds() {
+      const ids = [];
+      for (const w of [1,2,3]) {
+        WEEK_DEFS[w].daily.forEach(t => ids.push(t.id));
+        WEEK_DEFS[w].once.forEach(t => ids.push(t.id));
+      }
+      // dynamic week 4
+      state.week4.daily.forEach((_, idx) => ids.push(`w4-d${idx+1}`));
+      state.week4.once.forEach((_, idx) => ids.push(`w4-o${idx+1}`));
+      return ids;
+    }
+
+    function computeProgressFromState() {
+      const ids = getAllWeekCheckboxIds();
+      const total = ids.length;
+      const checked = ids.reduce((acc, id) => acc + (state.checkboxes[id] ? 1 : 0), 0);
+      const percentage = total > 0 ? Math.round((checked / total) * 100) : 0;
+      return { checked, total, percentage };
+    }
+
+    function updateWeekChips(currentWeek) {
+      document.querySelectorAll("[data-chip-week]").forEach((chip) => {
+        const w = Number(chip.dataset.chipWeek);
+        chip.classList.toggle("chip-active", w === currentWeek);
+      });
+    }
+
+    function updateHeader() {
+      const days = calculateDaysToKickoff();
+      document.getElementById("daysToKickoff").textContent = `noch ${days} Tage bis zur Ergebnis-Evaluierung mit CTO`;
+
+      const currentWeek = getCurrentWeek();
+      updateWeekChips(currentWeek);
+
+      const { percentage } = computeProgressFromState();
+      document.getElementById("totalProgress").textContent = `${percentage}%`;
+
+      const fill = document.getElementById("progressFill");
+      fill.style.width = `${percentage}%`;
+
+      if (!state.focusMode) {
+        document.querySelectorAll(".week-card").forEach((card) => {
+          const week = Number(card.dataset.week);
+          if (week === currentWeek) card.classList.add("week-highlight");
+          else card.classList.remove("week-highlight");
+        });
+      }
+    }
+
+    function applyFocusMode() {
+      const currentWeek = getCurrentWeek();
+      const weekIndicator = document.getElementById("currentWeekIndicator");
+      document.getElementById("focusToggle").textContent = state.focusMode ? "EIN" : "AUS";
+
+      if (state.focusMode) {
+        weekIndicator.textContent = `Aktuelle Woche: ${currentWeek} (auto)`;
+        weekIndicator.classList.remove("hidden");
+
+        document.querySelectorAll(".week-card").forEach((card) => {
+          const week = Number(card.dataset.week);
+          card.style.display = week === currentWeek ? "block" : "none";
+          card.classList.remove("week-highlight");
+        });
+      } else {
+        weekIndicator.classList.add("hidden");
+
+        document.querySelectorAll(".week-card").forEach((card) => {
+          card.style.display = "block";
+          const week = Number(card.dataset.week);
+          if (week === currentWeek) card.classList.add("week-highlight");
+          else card.classList.remove("week-highlight");
+        });
+      }
+    }
+
+    function toggleFocus() {
+      state.focusMode = !state.focusMode;
+      saveState();
+      applyFocusMode();
+      updateHeader();
+      updateTodayPanel();
+    }
+
+    // === DOCX Export (structured, readable) ===
+    function buildDocxChecklistRows(items, getCheckedFn) {
+      const { TableRow, TableCell, Paragraph, TextRun, WidthType } = window.docx;
+      return items.map((it) => {
+        const checked = getCheckedFn(it.id);
+        const checkbox = checked ? "☑" : "☐";
+        const lines = String(it.text || it.label || "").split("\n");
+
+        return new TableRow({
+          children: [
+            new TableCell({
+              width: { size: 7, type: WidthType.PERCENTAGE },
+              children: [new Paragraph({ children: [new TextRun({ text: checkbox, bold: true })] })]
+            }),
+            new TableCell({
+              width: { size: 93, type: WidthType.PERCENTAGE },
+              children: lines.map((line, idx) => new Paragraph({
+                spacing: { before: idx === 0 ? 0 : 40, after: 0 },
+                children: [new TextRun({ text: line })]
+              }))
+            })
+          ]
+        });
+      });
+    }
+
+    function buildDocxSectionTitle(text) {
+      const { Paragraph, TextRun } = window.docx;
+      return new Paragraph({
+        spacing: { before: 240, after: 120 },
+        children: [new TextRun({ text, bold: true, size: 28 })]
+      });
+    }
+
+    function buildDocxSmall(text) {
+      const { Paragraph, TextRun } = window.docx;
+      return new Paragraph({
+        spacing: { before: 0, after: 60 },
+        children: [new TextRun({ text, size: 20, color: "555555" })]
+      });
+    }
+
+    function buildDocxPara(text) {
+      const { Paragraph, TextRun } = window.docx;
+      return new Paragraph({
+        spacing: { before: 0, after: 80 },
+        children: [new TextRun({ text })]
+      });
+    }
+
+    async function exportDocx() {
+      if (!window.docx || !window.saveAs) {
+        alert("DOCX Export konnte nicht geladen werden (docx/file-saver CDN).");
+        return;
+      }
+
+      const {
+        Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
+        WidthType, BorderStyle
+      } = window.docx;
+
+      const exportDate = new Date();
+      const exportDateStr = exportDate.toLocaleString("de-DE", { year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit" });
+
+      const daysToEval = calculateDaysToKickoff();
+      const currentWeek = getCurrentWeek();
+      const { percentage } = computeProgressFromState();
+
+      const activeDateISO = state.settings.activeDateISO;
+      const template = getDailyTemplate(activeDateISO);
+      const todayScope = state.settings.todayScope || "currentWeek";
+
+      // Build "Heute tasks" list based on current scope and week logic
+      let todayTasks = [];
+      if (todayScope === "currentWeek") {
+        if (currentWeek === 4) {
+          todayTasks = state.week4.daily.map((t, idx) => ({ id:`w4-d${idx+1}`, text: String(t) }));
+        } else {
+          todayTasks = (WEEK_DEFS[currentWeek]?.daily || []).map(t => ({ id: t.id, text: t.text }));
+        }
+      } else {
+        // all weeks daily tasks
+        for (const w of [1,2,3]) todayTasks = todayTasks.concat(WEEK_DEFS[w].daily.map(t => ({ id: t.id, text: t.text })));
+        todayTasks = todayTasks.concat(state.week4.daily.map((t, idx) => ({ id:`w4-d${idx+1}`, text: String(t) })));
+      }
+
+      const getWeekChecked = (id) => !!state.checkboxes[id];
+      const getTodayChecked = (id) => !!template.dailyItemStates[id];
+
+      // Common borders (subtle table)
+      const tableBorders = {
+        top: { style: BorderStyle.SINGLE, size: 1, color: "DDDDDD" },
+        bottom: { style: BorderStyle.SINGLE, size: 1, color: "DDDDDD" },
+        left: { style: BorderStyle.SINGLE, size: 1, color: "DDDDDD" },
+        right: { style: BorderStyle.SINGLE, size: 1, color: "DDDDDD" },
+        insideHorizontal: { style: BorderStyle.SINGLE, size: 1, color: "EEEEEE" },
+        insideVertical: { style: BorderStyle.SINGLE, size: 1, color: "EEEEEE" }
+      };
+
+      const doc = new Document({
+        sections: [{
+          properties: {},
+          children: [
+            new Paragraph({
+              children: [
+                new TextRun({ text: "TECH", bold: true, size: 34 }),
+                new TextRun({ text: "EXX", bold: true, size: 34 }),
+                new TextRun({ text: " GmbH", bold: true, size: 28 })
+              ],
+              spacing: { after: 80 }
+            }),
+
+            new Paragraph({
+              children: [new TextRun({ text: "30-Tage-Umsetzungs-Checkliste", bold: true, size: 40 })],
+              spacing: { after: 80 }
+            }),
+            new Paragraph({
+              children: [new TextRun({ text: "Kick-off. Gelebte Realität.", size: 24, color: "555555" })],
+              spacing: { after: 240 }
+            }),
+
+            // Meta summary
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              borders: tableBorders,
+              rows: [
+                new TableRow({
+                  children: [
+                    new TableCell({ width: { size: 40, type: WidthType.PERCENTAGE }, children: [new Paragraph({ children: [new TextRun({ text: "Exportiert am", bold: true })] })] }),
+                    new TableCell({ width: { size: 60, type: WidthType.PERCENTAGE }, children: [new Paragraph(exportDateStr)] })
+                  ]
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Tage bis Ergebnis-Evaluierung (CTO)", bold: true })] })] }),
+                    new TableCell({ children: [new Paragraph(String(daysToEval))] })
+                  ]
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Aktuelle Woche (auto)", bold: true })] })] }),
+                    new TableCell({ children: [new Paragraph(`Woche ${currentWeek}`)] })
+                  ]
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Gesamtfortschritt", bold: true })] })] }),
+                    new TableCell({ children: [new Paragraph(`${percentage}%`)] })
+                  ]
+                }),
+                new TableRow({
+                  children: [
+                    new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Aktives Datum (Heute Panel)", bold: true })] })] }),
+                    new TableCell({ children: [new Paragraph(activeDateISO)] })
+                  ]
+                })
+              ]
+            }),
+
+            // Today section
+            buildDocxSectionTitle("Heute"),
+            buildDocxSmall(`Quelle: ${todayScope === "currentWeek" ? `Woche ${currentWeek} (auto)` : "Alle Wochen (1–4)"}`),
+
+            new Paragraph({ children: [new TextRun({ text: "Tägliche Aufgaben", bold: true, size: 26 })], spacing: { before: 120, after: 80 } }),
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              borders: tableBorders,
+              rows: buildDocxChecklistRows(todayTasks, getTodayChecked)
+            }),
+
+            buildDocxPara(`Engpass heute: ${template.bottleneck || "-"}`),
+            buildDocxPara(`Nächster Hebel morgen: ${template.leverTomorrow || "-"}`),
+            buildDocxPara(`Direkt-zu-Roman Vorfälle: ${String(template.romanDirectCount || 0)}`),
+
+            new Paragraph({ children: [new TextRun({ text: "Letzte 7 Tage", bold: true, size: 26 })], spacing: { before: 120, after: 60 } }),
+
+            ...([...state.dailyTemplates]
+              .sort((a,b) => b.dateISO.localeCompare(a.dateISO))
+              .slice(0,7)
+              .map(t => new Paragraph({
+                spacing: { before: 0, after: 40 },
+                children: [
+                  new TextRun({ text: `${t.dateISO}: `, bold: true }),
+                  new TextRun({ text: `Roman-Vorfälle ${t.romanDirectCount || 0}. ` }),
+                  new TextRun({ text: `Engpass: ${t.bottleneck || "-"}. ` }),
+                  new TextRun({ text: `Hebel: ${t.leverTomorrow || "-"}.` })
+                ]
+              }))
+            ),
+
+            // Weeks 1-3
+            buildDocxSectionTitle("Wochenübersicht"),
+            ...[1,2,3].flatMap(w => {
+              const def = WEEK_DEFS[w];
+              const note = (state.notes && state.notes[`w${w}`]) ? state.notes[`w${w}`] : "";
+              const blocks = [
+                new Paragraph({ children: [new TextRun({ text: def.title, bold: true, size: 30 })], spacing: { before: 160, after: 60 } }),
+                buildDocxSmall(def.focusRole),
+                new Paragraph({ children: [new TextRun({ text: "Täglich", bold: true, size: 26 })], spacing: { before: 80, after: 60 } }),
+                new Table({
+                  width: { size: 100, type: WidthType.PERCENTAGE },
+                  borders: tableBorders,
+                  rows: buildDocxChecklistRows(def.daily, getWeekChecked)
+                })
+              ];
+
+              if ((def.once || []).length > 0) {
+                blocks.push(
+                  new Paragraph({ children: [new TextRun({ text: "Einmalig", bold: true, size: 26 })], spacing: { before: 120, after: 60 } }),
+                  new Table({
+                    width: { size: 100, type: WidthType.PERCENTAGE },
+                    borders: tableBorders,
+                    rows: buildDocxChecklistRows(def.once, getWeekChecked)
+                  })
+                );
+              }
+
+              if ((def.questions || []).length > 0) {
+                blocks.push(
+                  new Paragraph({ children: [new TextRun({ text: "Prüffragen / Hinweise", bold: true, size: 26 })], spacing: { before: 120, after: 60 } }),
+                  ...def.questions.map(q => new Paragraph({ spacing: { before: 0, after: 40 }, children: [new TextRun({ text: `• ${q}` })] }))
+                );
+              }
+
+              blocks.push(
+                new Paragraph({ children: [new TextRun({ text: "Notizen", bold: true, size: 26 })], spacing: { before: 120, after: 40 } }),
+                new Paragraph({ children: [new TextRun({ text: note || "-", color: note ? "000000" : "777777" })], spacing: { before: 0, after: 120 } })
+              );
+
+              return blocks;
+            }),
+
+            // Week 4 (dynamic)
+            new Paragraph({ children: [new TextRun({ text: "WOCHE 4. VERSTETIGEN", bold: true, size: 30 })], spacing: { before: 200, after: 60 } }),
+            buildDocxSmall(`Fokus: ${state.week4.focus || "-"}. Rolle: ${state.week4.role || "-"}.`),
+
+            new Paragraph({ children: [new TextRun({ text: "Täglich", bold: true, size: 26 })], spacing: { before: 80, after: 60 } }),
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              borders: tableBorders,
+              rows: buildDocxChecklistRows(
+                state.week4.daily.map((t, idx) => ({ id:`w4-d${idx+1}`, text: String(t) })),
+                getWeekChecked
+              )
+            }),
+
+            new Paragraph({ children: [new TextRun({ text: "Einmalig", bold: true, size: 26 })], spacing: { before: 120, after: 60 } }),
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              borders: tableBorders,
+              rows: buildDocxChecklistRows(
+                state.week4.once.map((t, idx) => ({ id:`w4-o${idx+1}`, text: String(t) })),
+                getWeekChecked
+              )
+            }),
+
+            new Paragraph({ children: [new TextRun({ text: "Prüffragen", bold: true, size: 26 })], spacing: { before: 120, after: 60 } }),
+            ...(state.week4.questions || []).map(q => new Paragraph({ spacing: { before: 0, after: 40 }, children: [new TextRun({ text: `• ${q}` })] })),
+
+            buildDocxPara(`Ergebnis Woche 4: ${state.week4.result || "-"}`),
+
+            new Paragraph({ children: [new TextRun({ text: "Notizen Woche 4", bold: true, size: 26 })], spacing: { before: 120, after: 40 } }),
+            new Paragraph({ children: [new TextRun({ text: (state.notes && state.notes.w4) ? state.notes.w4 : "-", color: (state.notes && state.notes.w4) ? "000000" : "777777" })], spacing: { before: 0, after: 80 } })
+          ]
+        }]
+      });
+
+      const blob = await Packer.toBlob(doc);
+      const filename = `TECHEXX_30-Tage_Checkliste_${getTodayString()}.docx`;
+      saveAs(blob, filename);
+    }
+
+    // === Week4 edit helpers (global for inline onclick) ===
+    window.editField = function (fieldId) {
+      const display = document.getElementById(`${fieldId}-display`);
+      const input = document.getElementById(`${fieldId}-input`);
+      display.classList.add("hidden");
+      input.classList.remove("hidden");
+      input.focus();
+
+      const saveField = () => {
+        const value = input.value.trim() || "[Bearbeiten]";
+        if (fieldId === "w4-focus") state.week4.focus = value;
+        if (fieldId === "w4-role") state.week4.role = value;
+
+        display.textContent = value;
+        display.classList.remove("hidden");
+        input.classList.add("hidden");
+        saveState();
+
+        updateTodayPanel();
+      };
+
+      input.onblur = saveField;
+      input.onkeydown = (e) => { if (e.key === "Enter") saveField(); };
+    };
+
+    window.editSection = function (sectionId) {
+      document.getElementById(`${sectionId}-display`).classList.add("hidden");
+      document.getElementById(`${sectionId}-edit`).classList.remove("hidden");
+    };
+
+    window.saveSection = function (sectionId) {
+      if (sectionId === "w4-daily") {
+        state.week4.daily = [
+          document.querySelector('[data-edit="w4-daily-1"]').value || "[Platzhalter 1]",
+          document.querySelector('[data-edit="w4-daily-2"]').value || "[Platzhalter 2]",
+          document.querySelector('[data-edit="w4-daily-3"]').value || "[Platzhalter 3]"
+        ];
+      } else if (sectionId === "w4-once") {
+        state.week4.once = [
+          document.querySelector('[data-edit="w4-once-1"]').value || "[Platzhalter A]",
+          document.querySelector('[data-edit="w4-once-2"]').value || "[Platzhalter B]"
+        ];
+      } else if (sectionId === "w4-questions") {
+        state.week4.questions = [
+          document.querySelector('[data-edit="w4-q-1"]').value || "[Platzhalter Frage 1]",
+          document.querySelector('[data-edit="w4-q-2"]').value || "[Platzhalter Frage 2]"
+        ];
+      }
+
+      document.getElementById(`${sectionId}-edit`).classList.add("hidden");
+      document.getElementById(`${sectionId}-display`).classList.remove("hidden");
+
+      saveState();
+      renderWeek4();
+      updateHeader();
+      updateTodayPanel();
+    };
+
+    // === Wiring: week checkboxes + notes ===
+    function bindWeekCheckboxes() {
+      document.querySelectorAll(".week-card .checkbox").forEach((checkbox) => {
+        checkbox.checked = !!state.checkboxes[checkbox.dataset.id];
+        checkbox.addEventListener("change", (e) => {
+          state.checkboxes[e.target.dataset.id] = e.target.checked;
+          saveState();
+          updateHeader();
+        });
+      });
+    }
+
+    function bindNotesAndResults() {
+      document.querySelectorAll('textarea[data-notes]').forEach((textarea) => {
+        const noteId = textarea.dataset.notes;
+        textarea.value = (state.notes && state.notes[noteId]) ? state.notes[noteId] : "";
+        textarea.addEventListener("input", debounce((e) => {
+          state.notes[noteId] = e.target.value;
+          saveState();
+        }, 500));
+      });
+
+      const resultField = document.querySelector('[data-result="w4"]');
+      if (resultField) {
+        resultField.value = state.week4.result || "";
+        resultField.addEventListener("input", debounce((e) => {
+          state.week4.result = e.target.value;
+          saveState();
+        }, 500));
+      }
+    }
+
+    // === Wiring: Today panel inputs ===
+    function bindTodayInputs() {
+      document.getElementById("todayBottleneck").addEventListener("input", debounce((e) => {
+        const template = getDailyTemplate(state.settings.activeDateISO);
+        template.bottleneck = e.target.value;
+        template.updatedAtISO = new Date().toISOString();
+        saveState();
+        updateDailyHistory();
+      }, 500));
+
+      document.getElementById("todayLever").addEventListener("input", debounce((e) => {
+        const template = getDailyTemplate(state.settings.activeDateISO);
+        template.leverTomorrow = e.target.value;
+        template.updatedAtISO = new Date().toISOString();
+        saveState();
+        updateDailyHistory();
+      }, 500));
+
+      document.getElementById("romanPlus").addEventListener("click", () => {
+        const template = getDailyTemplate(state.settings.activeDateISO);
+        template.romanDirectCount = (template.romanDirectCount || 0) + 1;
+        template.updatedAtISO = new Date().toISOString();
+        document.getElementById("romanCount").textContent = template.romanDirectCount;
+        saveState();
+        updateDailyHistory();
+      });
+
+      document.getElementById("romanMinus").addEventListener("click", () => {
+        const template = getDailyTemplate(state.settings.activeDateISO);
+        template.romanDirectCount = Math.max(0, (template.romanDirectCount || 0) - 1);
+        template.updatedAtISO = new Date().toISOString();
+        document.getElementById("romanCount").textContent = template.romanDirectCount;
+        saveState();
+        updateDailyHistory();
+      });
+
+      document.getElementById("todayScopeToggle").addEventListener("click", () => {
+        state.settings.todayScope = state.settings.todayScope === "currentWeek" ? "allWeeks" : "currentWeek";
+        saveState();
+        updateTodayPanel();
+      });
+
+      document.getElementById("checkAllToday").addEventListener("click", () => {
+        if (confirm("Wirklich alle Today Items abhaken?")) {
+          const template = getDailyTemplate(state.settings.activeDateISO);
+          document.querySelectorAll("#todayTasks .daily-checkbox").forEach((cb) => {
+            cb.checked = true;
+            template.dailyItemStates[cb.dataset.id] = true;
+          });
+          template.updatedAtISO = new Date().toISOString();
+          saveState();
+          updateTodayPanel();
+        }
+      });
+
+      document.getElementById("prevDay").addEventListener("click", () => {
+        const prevDate = addDays(state.settings.activeDateISO, -1);
+        state.settings.activeDateISO = prevDate;
+        getDailyTemplate(prevDate);
+        saveState();
+        updateTodayPanel();
+      });
+
+      document.getElementById("nextDay").addEventListener("click", () => {
+        const nextDate = addDays(state.settings.activeDateISO, 1);
+        state.settings.activeDateISO = nextDate;
+        getDailyTemplate(nextDate);
+        saveState();
+        updateTodayPanel();
+      });
+
+      document.getElementById("createNextDay").addEventListener("click", () => {
+        const nextDate = addDays(state.settings.activeDateISO, 1);
+        getDailyTemplate(nextDate);
+        state.settings.activeDateISO = nextDate;
+        saveState();
+        updateTodayPanel();
+      });
+
+      document.getElementById("resetToday").addEventListener("click", () => {
+        if (confirm("Heute zurücksetzen? Alle Checkmarks und Notizen für diesen Tag werden gelöscht.")) {
+          const dateISO = state.settings.activeDateISO;
+          const index = state.dailyTemplates.findIndex((t) => t.dateISO === dateISO);
+          if (index !== -1) state.dailyTemplates.splice(index, 1);
+          getDailyTemplate(dateISO);
+          saveState();
+          updateTodayPanel();
+        }
+      });
+    }
+
+    // === Wiring: Header buttons ===
+    function bindHeaderButtons() {
+      document.getElementById("focusToggle").addEventListener("click", toggleFocus);
+      document.getElementById("exportBtn").addEventListener("click", exportDocx);
+
+      document.querySelectorAll("[data-chip-week]").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const w = Number(chip.dataset.chipWeek);
+          const el = document.querySelector(`.week-card[data-week="${w}"]`);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+    }
+
+    // === Boot ===
+    loadState();
+    initActiveDate();
+
+    renderWeek4();
+    bindWeekCheckboxes();
+    bindNotesAndResults();
+    bindTodayInputs();
+    bindHeaderButtons();
+
+    applyFocusMode();
+    updateHeader();
+    updateTodayPanel();
+  </script>
+</body>
+</html>
